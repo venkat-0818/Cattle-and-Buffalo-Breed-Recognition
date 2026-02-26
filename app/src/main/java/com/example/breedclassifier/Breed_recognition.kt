@@ -36,6 +36,7 @@ class Breed_recognition : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_breed_recognition)
 
+
         imageView = findViewById(R.id.imageView)
         resultText = findViewById(R.id.resultText)
         val btnSelectImage: Button = findViewById(R.id.btnSelectImage)
