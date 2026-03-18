@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "834145310133",
+    "project_id": "breedclassifier",
+    "storage_bucket": "breedclassifier.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834145310133:android:a9ce9bb3e6782bc25675fc",
+        "android_client_info": {
+          "package_name": "com.example.breedclassifier"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT_gmziSS4foL-3gfiK7VeqvUfajKIeEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
