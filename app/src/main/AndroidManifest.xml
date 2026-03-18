@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
@@ -13,37 +13,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BreedClassifier">
-
-        <activity android:name=".HistoryActivity"
-            android:exported="true">
-        </activity>
-
-        <!-- Splash Activity: Launcher -->
         <activity
-            android:name=".SplashActivity"
-            android:exported="true">
+            android:name=".RegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
 
-        <!-- Dashboard Activity -->
+        </activity> <!-- Dashboard Activity -->
         <activity
             android:name=".DashboardActivity"
             android:exported="true"
-            android:label="BoviScan Dashboard" />
-
-        <!-- Breed Recognition Activity -->
+            android:label="BoviScan Dashboard" /> <!-- Breed Recognition Activity -->
         <activity
             android:name=".Breed_recognition"
             android:exported="true"
             android:theme="@style/Theme.BreedClassifier" />
-
         <activity
             android:name=".MainActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
     </application>
 
 </manifest>
