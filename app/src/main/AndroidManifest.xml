@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <!-- Camera feature -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -13,38 +20,50 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BreedClassifier">
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="true" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true" >
 
+        <!-- Splash Screen - opens first -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.BreedClassifier">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".HistoryActivity"
-            android:exported="true" />
-        <activity
-            android:name=".SplashActivity"
-            android:exported="true">
 
-        </activity> <!-- Dashboard Activity -->
+        <!-- Login -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true" />
+
+        <!-- Register -->
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="true" />
+
+        <!-- Dashboard -->
         <activity
             android:name=".DashboardActivity"
             android:exported="true"
-            android:label="BoviScan Dashboard" /> <!-- Breed Recognition Activity -->
+            android:label="BoviScan Dashboard" />
+
+        <!-- Breed Recognition -->
         <activity
             android:name=".Breed_recognition"
             android:exported="true"
             android:theme="@style/Theme.BreedClassifier" />
+
+        <!-- Main Classifier -->
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
+        <!-- Prediction History -->
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
