@@ -1,21 +1,21 @@
 package com.example.breedclassifier
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -56,11 +56,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun BreedScreen() {
-
         var bitmap by remember { mutableStateOf<Bitmap?>(null) }
         var result by remember { mutableStateOf("No result") }
+        var isLoading by remember { mutableStateOf(false) }
 
         val cameraLauncher = rememberLauncherForActivityResult(
             ActivityResultContracts.TakePicturePreview()
@@ -75,55 +76,168 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        Column(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            Text("🐄 Breed Classifier", fontSize = 24.sp)
-
-            Spacer(Modifier.height(20.dp))
-
-            Box(
-                modifier = Modifier.size(250.dp)
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-            ) {
-                bitmap?.let {
-                    Image(it.asImageBitmap(), contentDescription = null)
-                }
-            }
-
-            Spacer(Modifier.height(20.dp))
-
-            Row {
-                Button(onClick = { cameraLauncher.launch(null) }) {
-                    Icon(Icons.Default.CameraAlt, null)
-                }
-
-                Spacer(Modifier.width(20.dp))
-
-                Button(onClick = { galleryLauncher.launch("image/*") }) {
-                    Icon(Icons.Default.PhotoLibrary, null)
-                }
-            }
-
-            Spacer(Modifier.height(20.dp))
-
-            Button(onClick = {
-                bitmap?.let {
-                    lifecycleScope.launch {
-                        val (breed, conf) = withContext(Dispatchers.Default) {
-                            predict(it)
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("🐄 Breed Classifier") },
+                    actions = {
+                        // History button with live count badge
+                        BadgedBox(
+                            badge = {
+                                if (HistoryManager.history.isNotEmpty()) {
+                                    Badge {
+                                        Text("${HistoryManager.history.size}")
+                                    }
+                                }
+                            }
+                        ) {
+                            IconButton(onClick = {
+                                startActivity(
+                                    Intent(this@MainActivity, HistoryActivity::class.java)
+                                )
+                            }) {
+                                Icon(
+                                    Icons.Default.History,
+                                    contentDescription = "View History"
+                                )
+                            }
                         }
-                        result = "$breed ($conf%)"
+                    }
+                )
+            }
+        ) { paddingValues ->
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                // Image Preview Box
+                Box(
+                    modifier = Modifier
+                        .size(250.dp)
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                    contentAlignment = Alignment.Center
+                ) {
+                    bitmap?.let {
+                        Image(it.asImageBitmap(), contentDescription = null)
+                    } ?: Text(
+                        "No image selected",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 14.sp
+                    )
+                }
+
+                Spacer(Modifier.height(20.dp))
+
+                // Camera & Gallery buttons
+                Row {
+                    Button(onClick = { cameraLauncher.launch(null) }) {
+                        Icon(Icons.Default.CameraAlt, contentDescription = "Camera")
+                        Spacer(Modifier.width(6.dp))
+                        Text("Camera")
+                    }
+
+                    Spacer(Modifier.width(20.dp))
+
+                    Button(onClick = { galleryLauncher.launch("image/*") }) {
+                        Icon(Icons.Default.PhotoLibrary, contentDescription = "Gallery")
+                        Spacer(Modifier.width(6.dp))
+                        Text("Gallery")
                     }
                 }
-            }) {
-                Text("Predict")
-            }
 
-            Spacer(Modifier.height(20.dp))
-            Text(result)
+                Spacer(Modifier.height(20.dp))
+
+                // Predict button
+                Button(
+                    onClick = {
+                        bitmap?.let { bmp ->
+                            isLoading = true
+                            lifecycleScope.launch {
+                                val (breed, conf) = withContext(Dispatchers.Default) {
+                                    predict(bmp)
+                                }
+                                // Update result text
+                                result = "$breed ($conf%)"
+                                // ✅ Save to history
+                                HistoryManager.add(
+                                    breed = breed,
+                                    confidence = conf,
+                                    bitmap = bmp
+                                )
+                                isLoading = false
+                            }
+                        } ?: Toast.makeText(
+                            this@MainActivity,
+                            "Please select an image first",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    enabled = !isLoading
+                ) {
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(18.dp),
+                            strokeWidth = 2.dp,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text("Predicting...")
+                    } else {
+                        Text("Predict Breed")
+                    }
+                }
+
+                Spacer(Modifier.height(20.dp))
+
+                // Result Text
+                if (result != "No result") {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "Result",
+                                fontSize = 12.sp,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                            Spacer(Modifier.height(4.dp))
+                            Text(
+                                text = result,
+                                fontSize = 18.sp,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                    }
+                }
+
+                Spacer(Modifier.height(16.dp))
+
+                // View History button
+                OutlinedButton(
+                    onClick = {
+                        startActivity(
+                            Intent(this@MainActivity, HistoryActivity::class.java)
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.History, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+//                    Text("View History (${HistoryManager.history.size})")
+                    Text("View History")
+                }
+            }
         }
     }
 
