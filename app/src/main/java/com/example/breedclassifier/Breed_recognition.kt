@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -42,7 +43,7 @@ class Breed_recognition : AppCompatActivity() {
         val btnPredict: Button = findViewById(R.id.btnPredict)
 
         try {
-            interpreter = Interpreter(loadModelFile("breed_model.tflite"))
+            interpreter = Interpreter(loadModelFile("breed_classifier_fixed.tflite"))
             labels = assets.open("labels.txt").bufferedReader().readLines()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -72,6 +73,7 @@ class Breed_recognition : AppCompatActivity() {
         val declaredLength = fileDescriptor.declaredLength
         return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
     }
+
 
     private fun predictImage(bitmap: Bitmap): Pair<String, Int> {
         val resizedBitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
