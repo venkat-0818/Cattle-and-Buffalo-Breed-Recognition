@@ -29,10 +29,7 @@
             android:name=".DashboardActivity"
             android:exported="true"
             android:label="BoviScan Dashboard" /> <!-- Breed Recognition Activity -->
-        <activity
-            android:name=".Breed_recognition"
-            android:exported="true"
-            android:theme="@style/Theme.BreedClassifier" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true" />
