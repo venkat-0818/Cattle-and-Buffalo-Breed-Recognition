@@ -12,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -76,7 +75,7 @@ class HistoryActivity : ComponentActivity() {
                     actions = {
                         if (historyList.isNotEmpty()) {
                             IconButton(onClick = { showConfirmDialog = true }) {
-                                Icon(Icons.Default.DeleteSweep, contentDescription = "Clear All")
+                                Icon(Icons.Default.Delete, contentDescription = "Clear All")
                             }
                         }
                     }
