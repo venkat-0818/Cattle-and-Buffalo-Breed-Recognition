@@ -1,12 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-=======
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
->>>>>>> 3c4abcf825878a9490a84235823a39ad000342a7
-    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
@@ -14,47 +7,23 @@
     <application
         android:allowBackup="true"
         android:label="BreedClassifier"
-        android:theme="@style/Theme.BreedClassifier">
+        android:theme="@style/Theme.BreedClassifier"
+        android:usesCleartextTraffic="true">
 
-<<<<<<< HEAD
-        <activity
-            android:name=".HistoryActivity"
-            android:exported="true"></activity> <!-- Splash Activity: Launcher -->
-=======
-        <!-- LOGIN FIRST -->
->>>>>>> 3c4abcf825878a9490a84235823a39ad000342a7
-        <activity
-            android:name=".LoginActivity"
+        <activity android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
-<<<<<<< HEAD
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- Dashboard Activity -->
-        <activity
-            android:name=".DashboardActivity"
-            android:exported="true"
-            android:label="BoviScan Dashboard" /> <!-- Breed Recognition Activity -->
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
-    </application>
-
-=======
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".SplashActivity"/>
-        <activity android:name=".DashboardActivity"/>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".HistoryActivity"/>
+        <activity android:name=".DashboardActivity" android:exported="true"/>
+        <activity android:name=".MainActivity" android:exported="true"/>
+        <activity android:name=".HistoryActivity" android:exported="true"/>
+        <activity android:name=".RegisterActivity" android:exported="true"/>
+        <activity android:name=".SplashActivity" android:exported="true"/>
 
     </application>
->>>>>>> 3c4abcf825878a9490a84235823a39ad000342a7
+
 </manifest>
