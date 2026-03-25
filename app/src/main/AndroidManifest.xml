@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+=======
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+>>>>>>> 3c4abcf825878a9490a84235823a39ad000342a7
     <!-- Permissions -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android:label="BreedClassifier"
         android:theme="@style/Theme.BreedClassifier">
 
+<<<<<<< HEAD
         <activity
             android:name=".HistoryActivity"
             android:exported="true"></activity> <!-- Splash Activity: Launcher -->
+=======
+        <!-- LOGIN FIRST -->
+>>>>>>> 3c4abcf825878a9490a84235823a39ad000342a7
         <activity
-            android:name=".SplashActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
+<<<<<<< HEAD
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -35,4 +43,18 @@
             android:exported="true" />
     </application>
 
+=======
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".SplashActivity"/>
+        <activity android:name=".DashboardActivity"/>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".HistoryActivity"/>
+
+    </application>
+>>>>>>> 3c4abcf825878a9490a84235823a39ad000342a7
 </manifest>
