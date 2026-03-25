@@ -1,269 +1,200 @@
 package com.example.breedclassifier
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.PhotoLibrary
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var interpreter: Interpreter
-    private lateinit var labels: List<String>
+    private var interpreter: Interpreter? = null
+    private var labels: List<String> = emptyList()
+    private var selectedBitmap: Bitmap? = null
+
+    // Views
+    private lateinit var imageView: ImageView
+    private lateinit var tvNoImage: TextView
+    private lateinit var tvBreedName: TextView
+    private lateinit var tvConfidence: TextView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var resultCard: MaterialCardView
+
+    // Camera launcher
+    private val cameraLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicturePreview()
+    ) { bitmap: Bitmap? ->
+        bitmap?.let {
+            selectedBitmap = it
+            imageView.setImageBitmap(it)
+            tvNoImage.visibility = View.GONE
+        }
+    }
+
+    // Gallery launcher
+    private val galleryLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            val inputStream = contentResolver.openInputStream(it)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            selectedBitmap = bitmap
+            imageView.setImageBitmap(bitmap)
+            tvNoImage.visibility = View.GONE
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
+        // Toolbar
+        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+
+        // Init views
+        imageView    = findViewById(R.id.imageView)
+        tvNoImage    = findViewById(R.id.tvNoImage)
+        tvBreedName  = findViewById(R.id.tvBreedName)
+        tvConfidence = findViewById(R.id.tvConfidence)
+        progressBar  = findViewById(R.id.progressBar)
+        resultCard   = findViewById(R.id.resultCard)
+
+        // Load TFLite model and labels
         try {
-            interpreter = Interpreter(loadModelFile("breed_classifier_model.tflite"))
-            labels = assets.open("labels.txt").bufferedReader().readLines()
+            val options = Interpreter.Options()
+            interpreter = Interpreter(loadModelFile("breed_classifier_fixed.tflite"), options)
+            labels = assets.open("labels.txt")
+                .bufferedReader()
+                .readLines()
+                .filter { it.isNotBlank() }
+            Log.d("TFLite", "Model and labels loaded: ${labels.size} classes")
         } catch (e: Exception) {
-            Toast.makeText(this, "Model load error", Toast.LENGTH_LONG).show()
+            Log.e("TFLite", "Error loading model", e)
+            Toast.makeText(this, "Error loading model: ${e.message}", Toast.LENGTH_LONG).show()
         }
 
-        setContent {
-            MaterialTheme {
-                BreedScreen()
+        // Camera button
+        findViewById<MaterialCardView>(R.id.btnCamera).setOnClickListener {
+            cameraLauncher.launch(null)
+        }
+
+        // Gallery button
+        findViewById<MaterialCardView>(R.id.btnGallery).setOnClickListener {
+            galleryLauncher.launch("image/*")
+        }
+
+        // Predict button
+        findViewById<MaterialButton>(R.id.btnPredict).setOnClickListener {
+            val bitmap = selectedBitmap
+            if (bitmap == null) {
+                Toast.makeText(this, "Please select an image first", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+            if (interpreter == null || labels.isEmpty()) {
+                Toast.makeText(this, "Model not loaded", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Show loading
+            progressBar.visibility = View.VISIBLE
+            resultCard.visibility  = View.GONE
+
+            // Run prediction in background thread
+            Thread {
+                val (breed, confidence) = predictImage(bitmap)
+                savePrediction(breed)
+
+                runOnUiThread {
+                    progressBar.visibility = View.GONE
+                    resultCard.visibility  = View.VISIBLE
+                    tvBreedName.text  = breed.replaceFirstChar { it.uppercase() }
+                    tvConfidence.text = "Confidence: $confidence%"
+                }
+            }.start()
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun BreedScreen() {
-        var bitmap by remember { mutableStateOf<Bitmap?>(null) }
-        var result by remember { mutableStateOf("No result") }
-        var isLoading by remember { mutableStateOf(false) }
+    // Load TFLite model from assets
+    private fun loadModelFile(filename: String): MappedByteBuffer {
+        val fileDescriptor = assets.openFd(filename)
+        val inputStream    = FileInputStream(fileDescriptor.fileDescriptor)
+        val fileChannel    = inputStream.channel
+        val startOffset    = fileDescriptor.startOffset
+        val declaredLength = fileDescriptor.declaredLength
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
+    }
 
-        val cameraLauncher = rememberLauncherForActivityResult(
-            ActivityResultContracts.TakePicturePreview()
-        ) { bmp -> bitmap = bmp }
+    // Run inference
+    private fun predictImage(bitmap: Bitmap): Pair<String, Int> {
+        val currentInterpreter = interpreter ?: return Pair("Model Error", 0)
+        if (labels.isEmpty()) return Pair("Labels Error", 0)
 
-        val galleryLauncher = rememberLauncherForActivityResult(
-            ActivityResultContracts.GetContent()
-        ) { uri: Uri? ->
-            uri?.let {
-                val stream = contentResolver.openInputStream(it)
-                bitmap = BitmapFactory.decodeStream(stream)
+        return try {
+            val resizedBitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
+            val inputBuffer   = ByteBuffer
+                .allocateDirect(4 * 224 * 224 * 3)
+                .order(ByteOrder.nativeOrder())
+
+            val intValues = IntArray(224 * 224)
+            resizedBitmap.getPixels(intValues, 0, 224, 0, 0, 224, 224)
+
+            for (pixelValue in intValues) {
+                // EfficientNet preprocessing — keep pixels in [0, 255]
+                inputBuffer.putFloat(((pixelValue shr 16) and 0xFF).toFloat())
+                inputBuffer.putFloat(((pixelValue shr 8)  and 0xFF).toFloat())
+                inputBuffer.putFloat((pixelValue           and 0xFF).toFloat())
             }
-        }
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text("🐄 Breed Classifier") },
-                    actions = {
-                        // History button with live count badge
-                        BadgedBox(
-                            badge = {
-                                if (HistoryManager.history.isNotEmpty()) {
-                                    Badge {
-                                        Text("${HistoryManager.history.size}")
-                                    }
-                                }
-                            }
-                        ) {
-                            IconButton(onClick = {
-                                startActivity(
-                                    Intent(this@MainActivity, HistoryActivity::class.java)
-                                )
-                            }) {
-                                Icon(
-                                    Icons.Default.History,
-                                    contentDescription = "View History"
-                                )
-                            }
-                        }
-                    }
-                )
-            }
-        ) { paddingValues ->
+            inputBuffer.rewind()
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            val output = Array(1) { FloatArray(labels.size) }
+            currentInterpreter.run(inputBuffer, output)
 
-                // Image Preview Box
-                Box(
-                    modifier = Modifier
-                        .size(250.dp)
-                        .background(MaterialTheme.colorScheme.surfaceVariant),
-                    contentAlignment = Alignment.Center
-                ) {
-                    bitmap?.let {
-                        Image(it.asImageBitmap(), contentDescription = null)
-                    } ?: Text(
-                        "No image selected",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontSize = 14.sp
-                    )
-                }
+            val confidences = output[0]
+            val maxIndex    = confidences.indices.maxByOrNull { confidences[it] } ?: -1
+            val confidence  = (confidences[maxIndex] * 100).toInt()
+            val breedName   = labels.getOrElse(maxIndex) { "Unknown" }
 
-                Spacer(Modifier.height(20.dp))
-
-                // Camera & Gallery buttons
-                Row {
-                    Button(onClick = { cameraLauncher.launch(null) }) {
-                        Icon(Icons.Default.CameraAlt, contentDescription = "Camera")
-                        Spacer(Modifier.width(6.dp))
-                        Text("Camera")
-                    }
-
-                    Spacer(Modifier.width(20.dp))
-
-                    Button(onClick = { galleryLauncher.launch("image/*") }) {
-                        Icon(Icons.Default.PhotoLibrary, contentDescription = "Gallery")
-                        Spacer(Modifier.width(6.dp))
-                        Text("Gallery")
-                    }
-                }
-
-                Spacer(Modifier.height(20.dp))
-
-                // Predict button
-                Button(
-                    onClick = {
-                        bitmap?.let { bmp ->
-                            isLoading = true
-                            lifecycleScope.launch {
-                                val (breed, conf) = withContext(Dispatchers.Default) {
-                                    predict(bmp)
-                                }
-                                // Update result text
-                                result = "$breed ($conf%)"
-                                // ✅ Save to history
-                                HistoryManager.add(
-                                    breed = breed,
-                                    confidence = conf,
-                                    bitmap = bmp
-                                )
-                                isLoading = false
-                            }
-                        } ?: Toast.makeText(
-                            this@MainActivity,
-                            "Please select an image first",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    },
-                    enabled = !isLoading
-                ) {
-                    if (isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(18.dp),
-                            strokeWidth = 2.dp,
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                        Spacer(Modifier.width(8.dp))
-                        Text("Predicting...")
-                    } else {
-                        Text("Predict Breed")
-                    }
-                }
-
-                Spacer(Modifier.height(20.dp))
-
-                // Result Text
-                if (result != "No result") {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer
-                        )
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "Result",
-                                fontSize = 12.sp,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                            Spacer(Modifier.height(4.dp))
-                            Text(
-                                text = result,
-                                fontSize = 18.sp,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        }
-                    }
-                }
-
-                Spacer(Modifier.height(16.dp))
-
-                // View History button
-                OutlinedButton(
-                    onClick = {
-                        startActivity(
-                            Intent(this@MainActivity, HistoryActivity::class.java)
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(Icons.Default.History, contentDescription = null)
-                    Spacer(Modifier.width(8.dp))
-//                    Text("View History (${HistoryManager.history.size})")
-                    Text("View History")
-                }
-            }
+            Pair(breedName, confidence)
+        } catch (e: Exception) {
+            Log.e("TFLite", "Prediction error", e)
+            Pair("Error: ${e.message}", 0)
         }
     }
 
-    private fun loadModelFile(name: String): ByteBuffer {
-        val file = assets.openFd(name)
-        val input = FileInputStream(file.fileDescriptor)
-        return input.channel.map(FileChannel.MapMode.READ_ONLY, file.startOffset, file.declaredLength)
-    }
-
-    private fun predict(bitmap: Bitmap): Pair<String, Int> {
-        val resized = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
-        val buffer = ByteBuffer.allocateDirect(4 * 224 * 224 * 3).order(ByteOrder.nativeOrder())
-
-        val pixels = IntArray(224 * 224)
-        resized.getPixels(pixels, 0, 224, 0, 0, 224, 224)
-
-        for (p in pixels) {
-            buffer.putFloat(((p shr 16) and 0xFF) / 255f)
-            buffer.putFloat(((p shr 8) and 0xFF) / 255f)
-            buffer.putFloat((p and 0xFF) / 255f)
-        }
-
-        val output = Array(1) { FloatArray(labels.size) }
-        interpreter.run(buffer, output)
-
-        val index = output[0].indices.maxByOrNull { output[0][it] } ?: 0
-        return labels[index] to (output[0][index] * 100).toInt()
+    // Save prediction to history
+    private fun savePrediction(predictedBreed: String) {
+        val sharedPrefs = getSharedPreferences("breed_prefs", MODE_PRIVATE)
+        val editor      = sharedPrefs.edit()
+        val gson        = Gson()
+        val json        = sharedPrefs.getString("prediction_history", null)
+        val type        = object : TypeToken<MutableList<String>>() {}.type
+        val history: MutableList<String> = if (json != null) gson.fromJson(json, type)
+        else mutableListOf()
+        history.add(predictedBreed)
+        editor.putString("prediction_history", gson.toJson(history))
+        editor.apply()
     }
 }
