@@ -1,4 +1,4 @@
-package com.example.breedclassifier
+package com.breeddetect.ai
 
 import org.junit.Test
 

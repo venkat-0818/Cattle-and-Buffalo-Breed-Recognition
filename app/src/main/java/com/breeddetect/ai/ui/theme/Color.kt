@@ -1,4 +1,4 @@
-package com.example.breedclassifier.ui.theme
+package com.breeddetect.ai.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.example.breedclassifier
+package com.breeddetect.ai
 
 import android.graphics.Bitmap
 import java.text.SimpleDateFormat

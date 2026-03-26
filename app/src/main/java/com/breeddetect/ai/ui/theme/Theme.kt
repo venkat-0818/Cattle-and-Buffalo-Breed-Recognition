@@ -1,6 +1,5 @@
-package com.example.breedclassifier.ui.theme
+package com.breeddetect.ai.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

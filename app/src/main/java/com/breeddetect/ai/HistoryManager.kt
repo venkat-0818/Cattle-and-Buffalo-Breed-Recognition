@@ -1,4 +1,4 @@
-package com.example.breedclassifier
+package com.breeddetect.ai
 
 object HistoryManager {
     val history = mutableListOf<PredictionHistory>()

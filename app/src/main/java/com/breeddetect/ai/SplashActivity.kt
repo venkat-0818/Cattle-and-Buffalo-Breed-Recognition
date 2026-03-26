@@ -1,4 +1,4 @@
-package com.example.breedclassifier
+package com.breeddetect.ai
 
 import android.content.Intent
 import android.os.Bundle

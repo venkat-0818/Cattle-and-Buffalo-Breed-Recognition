@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-=======
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
->>>>>>> 3c4abcf825878a9490a84235823a39ad000342a7
     <!-- Permissions -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
@@ -14,47 +13,45 @@
     <application
         android:allowBackup="true"
         android:label="BreedClassifier"
-        android:theme="@style/Theme.BreedClassifier">
+        android:theme="@style/Theme.BreedClassifier"
 
-<<<<<<< HEAD
-        <activity
-            android:name=".HistoryActivity"
-            android:exported="true"></activity> <!-- Splash Activity: Launcher -->
-=======
-        <!-- LOGIN FIRST -->
->>>>>>> 3c4abcf825878a9490a84235823a39ad000342a7
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round">
+
+        <!-- Launcher Activity (Login First) -->
+
+        <!-- Launcher Activity (Login First) -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
-<<<<<<< HEAD
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- Dashboard Activity -->
-        <activity
-            android:name=".DashboardActivity"
-            android:exported="true"
-            android:label="BoviScan Dashboard" /> <!-- Breed Recognition Activity -->
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
-    </application>
-
-=======
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".SplashActivity"/>
-        <activity android:name=".DashboardActivity"/>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".HistoryActivity"/>
+        <!-- Other Activities -->
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="true"
+            android:label="BoviScan Dashboard" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true" />
 
     </application>
->>>>>>> 3c4abcf825878a9490a84235823a39ad000342a7
+
 </manifest>
