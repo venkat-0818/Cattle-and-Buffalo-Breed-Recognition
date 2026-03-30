@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">బ్రీడ్ డిటెక్ట్</string>
+    <string name="login">లాగిన్</string>
+    <string name="register">రిజిస్టర్</string>
+    <string name="email">ఇమెయిల్</string>
+    <string name="password">పాస్‌వర్డ్</string>
+    <string name="select_language">భాషను ఎంచుకోండి</string>
+    <string name="logout">లాగౌట్</string>
+</resources>

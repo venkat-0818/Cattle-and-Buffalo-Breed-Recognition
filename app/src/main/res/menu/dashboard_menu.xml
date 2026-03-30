@@ -8,6 +8,12 @@
         android:icon="@android:drawable/ic_menu_preferences"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/menu_language"
+        android:title="Language"
+        android:icon="@drawable/ic_launcher_background"
+        app:showAsAction="never" />
+
 
 
 </menu>

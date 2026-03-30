@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ब्रीड डिटेक्ट</string>
+    <string name="login">लॉगिन</string>
+    <string name="register">रजिस्टर</string>
+    <string name="email">ईमेल</string>
+    <string name="password">पासवर्ड</string>
+    <string name="select_language">भाषा चुनें</string>
+    <string name="logout">लॉगआउट</string>
+</resources>
