@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name" translatable="false">ਬ੍ਰੀਡ ਡਿਟੈਕਟ</string>
-    <string name="login" translatable="false">ਲੌਗਇਨ</string>
-    <string name="register" translatable="false">ਰਜਿਸਟਰ</string>
-    <string name="email" translatable="false">ਈਮੇਲ</string>
-    <string name="password" translatable="false">ਪਾਸਵਰਡ</string>
-    <string name="select_language" translatable="false">ਭਾਸ਼ਾ ਚੁਣੋ</string>
-    <string name="logout" translatable="false">ਲੌਗਆਉਟ</string>
-</resources>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="login">ਲੌਗਇਨ</string>
+    <string name="register">ਰਜਿਸਟਰ</string>
+    <string name="email">ਈਮੇਲ</string>
+    <string name="password">ਪਾਸਵਰਡ</string>
+    <string name="select_language">ਭਾਸ਼ਾ ਚੁਣੋ</string>
+    <string name="logout">ਲੌਗਆਉਟ</string>
+    <string name="app_name">ਬੋਵੀਸਕੈਨ</string>
+    <string name="tagline">AI ਆਧਾਰਿਤ ਪਸ਼ੂ ਨਸਲ ਪਛਾਣ</string>
+    <string name="scan_breed">ਨਸਲ ਸਕੈਨ ਕਰੋ</string>
+    <string name="scan_desc">ਪਸ਼ੂ ਦੀ ਤਸਵੀਰ ਕੈਪਚਰ ਜਾਂ ਅਪਲੋਡ ਕਰੋ</string>
+    <string name="history">ਇਤਿਹਾਸ</string>
+    <string name="history_desc">ਪਿਛਲੇ ਨਤੀਜੇ ਵੇਖੋ</string>
+    <string name="help">ਮਦਦ ਅਤੇ ਜਾਣਕਾਰੀ</string>
+</resources>

@@ -86,9 +86,12 @@ dependencies {
 
     // Gson
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation(libs.androidx.credentials)
-    implementation(libs.androidx.credentials.play.services.auth)
-    implementation(libs.googleid)
+    // ✅ ADD THESE (compatible with your setup)
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+//    implementation(libs.androidx.credentials)
+//    implementation(libs.androidx.credentials.play.services.auth)
+//    implementation(libs.googleid)
 
     // Testing
     testImplementation("junit:junit:4.13.2")

@@ -7,20 +7,13 @@ import android.view.MenuItem
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class DashboardActivity : AppCompatActivity() {
+class DashboardActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        // Apply saved language
-        val prefs = getSharedPreferences("Settings", MODE_PRIVATE)
-        val lang = prefs.getString("lang", "en") ?: "en"
-        LocaleHelper.setLocale(this, lang)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_dashboard)
 
@@ -35,7 +28,7 @@ class DashboardActivity : AppCompatActivity() {
         // Floating Action Button
         val fabHelp: FloatingActionButton = findViewById(R.id.fabHelp)
         fabHelp.setOnClickListener {
-            Toast.makeText(this, "Help clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.help), Toast.LENGTH_SHORT).show()
         }
 
         // Card: Scan
@@ -55,32 +48,28 @@ class DashboardActivity : AppCompatActivity() {
         return true
     }
 
-    // Handle ALL menu clicks here (MERGED)
+    // Handle menu clicks
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-
             R.id.menu_language -> {
                 showLanguageDialog()
                 true
             }
-
             R.id.action_settings -> {
                 showSettingsPopup()
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    // Language dialog
+    // Language Dialog
     private fun showLanguageDialog() {
-
         val languages = arrayOf("English", "हिंदी", "తెలుగు", "ਪੰਜਾਬੀ")
         val codes = arrayOf("en", "hi", "te", "pa")
 
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Select Language")
+        builder.setTitle(getString(R.string.select_language))
 
         builder.setItems(languages) { _, which ->
             val selectedLang = codes[which]
@@ -88,7 +77,11 @@ class DashboardActivity : AppCompatActivity() {
             val prefs = getSharedPreferences("Settings", MODE_PRIVATE)
             prefs.edit().putString("lang", selectedLang).apply()
 
-            recreate()
+            // Restart activity to apply language changes
+            val intent = Intent(this, SplashActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
         }
 
         builder.show()
@@ -114,7 +107,6 @@ class DashboardActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
         popup.show()
     }
 }
