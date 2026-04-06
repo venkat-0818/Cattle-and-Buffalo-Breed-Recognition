@@ -96,17 +96,26 @@ class DashboardActivity : BaseActivity() {
 
         popup.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
+
                 R.id.settings_option1 -> {
                     Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
                     true
                 }
+
                 R.id.settings_option2 -> {
                     Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
                     true
                 }
+
+                R.id.settings_option3 -> {
+                    startActivity(Intent(this, FeedbackActivity::class.java))
+                    true
+                }
+
                 else -> false
             }
         }
+
         popup.show()
     }
 }

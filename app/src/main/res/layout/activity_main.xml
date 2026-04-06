@@ -181,6 +181,16 @@
                 app:cornerRadius="16dp"
                 android:layout_marginBottom="20dp" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnKnowMore"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Know More About This Breed"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#43A047"
+                app:cornerRadius="16dp"
+                android:layout_marginTop="10dp"/>
+
             <!-- Loading indicator -->
             <ProgressBar
                 android:id="@+id/progressBar"
