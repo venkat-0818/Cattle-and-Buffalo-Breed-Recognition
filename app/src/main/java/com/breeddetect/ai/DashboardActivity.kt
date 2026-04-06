@@ -1,4 +1,3 @@
-
 package com.breeddetect.ai
 
 import android.content.Intent
@@ -7,12 +6,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class DashboardActivity : AppCompatActivity() {
+class DashboardActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,41 +28,69 @@ class DashboardActivity : AppCompatActivity() {
         // Floating Action Button
         val fabHelp: FloatingActionButton = findViewById(R.id.fabHelp)
         fabHelp.setOnClickListener {
-            Toast.makeText(this, "Help clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.help), Toast.LENGTH_SHORT).show()
         }
 
-        // Card: Scan / Identify Breed → Open MainActivity
+        // Card: Scan
         findViewById<MaterialCardView>(R.id.cardScanBreed).setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        // Card: Prediction History → Open HistoryActivity
+        // Card: History
         findViewById<MaterialCardView>(R.id.cardViewHistory).setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
         }
     }
 
-    // Inflate the toolbar menu
+    // Inflate menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.dashboard_menu, menu)
         return true
     }
 
-    // Handle menu item clicks
+    // Handle menu clicks
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.menu_language -> {
+                showLanguageDialog()
+                true
+            }
             R.id.action_settings -> {
-                showSettingsPopup() // <-- Show popup on same screen
+                showSettingsPopup()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    // Language Dialog
+    private fun showLanguageDialog() {
+        val languages = arrayOf("English", "हिंदी", "తెలుగు", "ਪੰਜਾਬੀ")
+        val codes = arrayOf("en", "hi", "te", "pa")
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.select_language))
+
+        builder.setItems(languages) { _, which ->
+            val selectedLang = codes[which]
+
+            val prefs = getSharedPreferences("Settings", MODE_PRIVATE)
+            prefs.edit().putString("lang", selectedLang).apply()
+
+            // Restart activity to apply language changes
+            val intent = Intent(this, SplashActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
+
+        builder.show()
+    }
+
+    // Settings popup
     private fun showSettingsPopup() {
         val toolbar: MaterialToolbar = findViewById(R.id.topAppBar)
 
-        // Anchor the popup to the toolbar itself
         val popup = PopupMenu(this, toolbar)
         popup.menuInflater.inflate(R.menu.settings_menu, popup.menu)
 
@@ -80,10 +107,6 @@ class DashboardActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
         popup.show()
     }
-
 }
-
-

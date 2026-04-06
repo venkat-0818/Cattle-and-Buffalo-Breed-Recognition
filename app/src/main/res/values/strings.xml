@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Breed classifier</string>
+    <string name="app_name">BoviScan</string>
+
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="select_language">Select Language</string>
+    <string name="logout">Logout</string>
+
+    <string name="tagline">AI-powered cattle breed detection</string>
+    <string name="scan_breed">Scan Breed</string>
+    <string name="scan_desc">Capture or upload cattle image</string>
+    <string name="history">History</string>
+    <string name="history_desc">View past predictions</string>
+    <string name="help">Help and information</string>
 </resources>

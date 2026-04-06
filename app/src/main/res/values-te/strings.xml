@@ -1,0 +1,15 @@
+<resources>
+    <string name="login">లాగిన్</string>
+    <string name="register">రిజిస్టర్</string>
+    <string name="email">ఇమెయిల్</string>
+    <string name="password">పాస్‌వర్డ్</string>
+    <string name="select_language">భాషను ఎంచుకోండి</string>
+    <string name="logout">లాగౌట్</string>
+    <string name="app_name">బోవీస్కాన్</string>
+    <string name="tagline">AI ఆధారిత పశువుల జాతి గుర్తింపు</string>
+    <string name="scan_breed">జాతిని స్కాన్ చేయండి</string>
+    <string name="scan_desc">పశువుల చిత్రాన్ని క్యాప్చర్ చేయండి లేదా అప్‌లోడ్ చేయండి</string>
+    <string name="history">చరిత్ర</string>
+    <string name="history_desc">మునుపటి అంచనాలను వీక్షించండి</string>
+    <string name="help">సహాయం మరియు సమాచారం</string>
+</resources>
