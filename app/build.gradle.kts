@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.breeddetect.ai"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.breeddetect.ai"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 2
         versionName = "1.0"
     }
@@ -35,7 +35,6 @@ android {
         compose = true
     }
 
-    // ✅ FIXED: moved outside packaging
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.14"
     }
@@ -47,63 +46,44 @@ android {
     packaging {
         jniLibs {
             useLegacyPackaging = true
-            pickFirsts.add("**/libtensorflowlite_jni.so")
-            pickFirsts.add("**/libtensorflowlite_flex_jni.so")
-        }
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
 
 dependencies {
 
-    // Core
-    implementation("androidx.core:core-ktx:1.15.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-
-    // Compose
-    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    implementation("androidx.activity:activity-compose:1.9.3")
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material-icons-extended")
-
-    // Material UI
-    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.material:material:1.12.0")
 
-    // TensorFlow (clean & consistent)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+
+    // FIXED activity version
+    implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation("androidx.activity:activity-compose:1.8.2")
+
+    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+
+    // TensorFlow
     implementation("org.tensorflow:tensorflow-lite:2.16.1")
-    implementation("org.tensorflow:tensorflow-lite-select-tf-ops:2.16.1")
     implementation("org.tensorflow:tensorflow-lite-gpu:2.16.1")
 
     // Firebase
-    implementation("com.google.firebase:firebase-auth:22.3.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-analytics")
+
+    implementation("com.google.android.gms:play-services-auth:21.1.1")
 
     // Gson
     implementation("com.google.code.gson:gson:2.10.1")
-    // ✅ ADD THESE (compatible with your setup)
-    implementation("androidx.credentials:credentials:1.3.0")
-    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
-//    implementation(libs.androidx.credentials)
-//    implementation(libs.androidx.credentials.play.services.auth)
-//    implementation(libs.googleid)
 
-    // Testing
+    // Constraint Layout
+    implementation("androidx.constraintlayout:constraintlayout:2.2.0")
+
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-}
-
-configurations.all {
-    exclude(group = "com.google.ai.edge.litert")
 }

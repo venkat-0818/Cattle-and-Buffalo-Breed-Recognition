@@ -11,5 +11,25 @@
     <string name="scan_desc">पशु की छवि कैप्चर या अपलोड करें</string>
     <string name="history">इतिहास</string>
     <string name="history_desc">पिछली भविष्यवाणियाँ देखें</string>
-    <string name="help">सहायता और जानकारी</string>
+    <string name="help">सहायता</string>
+    <string name="profile">प्रोफ़ाइल</string>
+    <string name="about">हमारे बारे में</string>
+    <string name="language">भाषा</string>
+
+    <string name="login_title">🐄 बोवीस्कैन</string>
+    <string name="login_subtitle">जारी रखने के लिए लॉगिन करें</string>
+    <string name="no_account">खाता नहीं है? रजिस्टर करें</string>
+
+    <string name="register_title">🐄 खाता बनाएँ</string>
+    <string name="register_subtitle">शुरू करने के लिए रजिस्टर करें</string>
+    <string name="create_account">खाता बनाएँ</string>
+    <string name="has_account">पहले से ही एक खाता है? लॉगिन करें</string>
+
+    <string name="breed_identification">नस्ल पहचान</string>
+    <string name="no_image">कोई छवि नहीं चुनी गई</string>
+    <string name="camera">कैमरा</string>
+    <string name="gallery">गैलरी</string>
+    <string name="predict_breed">नस्ल का पूर्वानुमान लगाएं</string>
+    <string name="know_more">इस नस्ल के बारे में और जानें</string>
+    <string name="prediction_result">पूर्वानुमान परिणाम</string>
 </resources>

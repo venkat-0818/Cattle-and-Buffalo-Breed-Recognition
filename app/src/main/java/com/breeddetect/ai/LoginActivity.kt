@@ -49,7 +49,8 @@ class LoginActivity : AppCompatActivity() {
                     val user = mAuth.currentUser
 
                     if (user != null && user.isEmailVerified) {
-                        startActivity(Intent(this, SplashActivity::class.java))
+                        // After successful login, go to DashboardActivity, NOT SplashActivity
+                        startActivity(Intent(this, DashboardActivity::class.java))
                         finish()
                     } else {
                         Toast.makeText(this, "Verify your email first", Toast.LENGTH_LONG).show()

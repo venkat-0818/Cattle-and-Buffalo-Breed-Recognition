@@ -1,5 +1,6 @@
 package com.breeddetect.ai
 
+// Updated HistoryActivity UI and bug fixes
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,7 +38,6 @@ class HistoryActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun HistoryScreen() {
-        // Use a state snapshot so recomposition triggers on changes
         var historyList by remember { mutableStateOf(HistoryManager.history.toList()) }
         var showConfirmDialog by remember { mutableStateOf(false) }
 
@@ -84,7 +84,6 @@ class HistoryActivity : ComponentActivity() {
         ) { paddingValues ->
 
             if (historyList.isEmpty()) {
-                // ── Empty State ──
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -109,7 +108,6 @@ class HistoryActivity : ComponentActivity() {
                 }
 
             } else {
-                // ── History List ──
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
@@ -147,7 +145,6 @@ class HistoryActivity : ComponentActivity() {
                     .padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Thumbnail
                 Box(
                     modifier = Modifier
                         .size(72.dp)
@@ -167,7 +164,6 @@ class HistoryActivity : ComponentActivity() {
 
                 Spacer(Modifier.width(12.dp))
 
-                // Info
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = entry.breed,
@@ -207,7 +203,6 @@ class HistoryActivity : ComponentActivity() {
 
                 Spacer(Modifier.width(8.dp))
 
-                // Delete button
                 IconButton(onClick = onDelete) {
                     Icon(
                         Icons.Default.Delete,
