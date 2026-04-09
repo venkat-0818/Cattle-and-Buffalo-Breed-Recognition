@@ -9,7 +9,27 @@
     <string name="tagline">AI ਆਧਾਰਿਤ ਪਸ਼ੂ ਨਸਲ ਪਛਾਣ</string>
     <string name="scan_breed">ਨਸਲ ਸਕੈਨ ਕਰੋ</string>
     <string name="scan_desc">ਪਸ਼ੂ ਦੀ ਤਸਵੀਰ ਕੈਪਚਰ ਜਾਂ ਅਪਲੋਡ ਕਰੋ</string>
-    <string name="history">ਇਤਿਹਾਸ</string>
+    <string name="history">इਤਿਹਾਸ</string>
     <string name="history_desc">ਪਿਛਲੇ ਨਤੀਜੇ ਵੇਖੋ</string>
-    <string name="help">ਮਦਦ ਅਤੇ ਜਾਣਕਾਰੀ</string>
+    <string name="help">ਮਦਦ</string>
+    <string name="profile">ਪ੍ਰੋਫਾਈਲ</string>
+    <string name="about">ਬਾਰੇ</string>
+    <string name="language">ਭਾਸ਼ਾ</string>
+
+    <string name="login_title">🐄 ਬੋਵੀਸਕੈਨ</string>
+    <string name="login_subtitle">ਜਾਰੀ ਰੱਖਣ ਲਈ ਲੌਗਇਨ ਕਰੋ</string>
+    <string name="no_account">ਖਾਤਾ ਨਹੀਂ ਹੈ? ਰਜਿਸਟਰ ਕਰੋ</string>
+
+    <string name="register_title">🐄 ਖਾਤਾ ਬਣਾਓ</string>
+    <string name="register_subtitle">ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਰਜਿਸਟਰ ਕਰੋ</string>
+    <string name="create_account">ਖਾਤਾ ਬਣਾਓ</string>
+    <string name="has_account">ਪਹਿਲਾਂ ਹੀ ਖਾਤਾ ਹੈ? ਲੌਗਇਨ ਕਰੋ</string>
+
+    <string name="breed_identification">ਨਸਲ ਪਛਾਣ</string>
+    <string name="no_image">ਕੋਈ ਤਸਵੀਰ ਨਹੀਂ ਚੁਣੀ ਗਈ</string>
+    <string name="camera">ਕੈਮਰਾ</string>
+    <string name="gallery">ਗੈਲਰੀ</string>
+    <string name="predict_breed">ਨਸਲ ਦਾ ਅਨੁਮਾਨ ਲਗਾਓ</string>
+    <string name="know_more">ਇਸ ਨਸਲ ਬਾਰੇ ਹੋਰ ਜਾਣੋ</string>
+    <string name="prediction_result">ਅਨੁਮਾਨ ਨਤੀਜਾ</string>
 </resources>

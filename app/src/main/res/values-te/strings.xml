@@ -11,5 +11,25 @@
     <string name="scan_desc">పశువుల చిత్రాన్ని క్యాప్చర్ చేయండి లేదా అప్‌లోడ్ చేయండి</string>
     <string name="history">చరిత్ర</string>
     <string name="history_desc">మునుపటి అంచనాలను వీక్షించండి</string>
-    <string name="help">సహాయం మరియు సమాచారం</string>
+    <string name="help">సహాయం</string>
+    <string name="profile">ప్రొఫైల్</string>
+    <string name="about">గురించి</string>
+    <string name="language">భాష</string>
+
+    <string name="login_title">🐄 బోవీస్కాన్</string>
+    <string name="login_subtitle">కొనసాగించడానికి లాగిన్ చేయండి</string>
+    <string name="no_account">ఖాతా లేదా? రిజిస్టర్ చేయండి</string>
+
+    <string name="register_title">🐄 ఖాతాను సృష్టించండి</string>
+    <string name="register_subtitle">ప్రారంభించడానికి రిజిస్టర్ చేయండి</string>
+    <string name="create_account">ఖాతాను సృష్టించండి</string>
+    <string name="has_account">ముందే ఖాతా ఉందా? లాగిన్ చేయండి</string>
+
+    <string name="breed_identification">జాతి గుర్తింపు</string>
+    <string name="no_image">చిత్రం ఏదీ ఎంచుకోబడలేదు</string>
+    <string name="camera">కెమెరా</string>
+    <string name="gallery">గ్యాలరీ</string>
+    <string name="predict_breed">జాతిని అంచనా వేయండి</string>
+    <string name="know_more">ఈ జాతి గురించి మరింత తెలుసుకోండి</string>
+    <string name="prediction_result">అంచనా ఫలితం</string>
 </resources>

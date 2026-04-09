@@ -2,33 +2,59 @@ package com.breeddetect.ai
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
-import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 
 class DashboardActivity : BaseActivity() {
+
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_dashboard)
 
-        // Toolbar setup
+        drawerLayout = findViewById(R.id.drawerLayout)
         val toolbar: MaterialToolbar = findViewById(R.id.topAppBar)
+        val navigationView: NavigationView = findViewById(R.id.navigationView)
+
         setSupportActionBar(toolbar)
 
+        // Open drawer on hamburger icon click
         toolbar.setNavigationOnClickListener {
-            Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show()
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        // Handle Navigation Drawer item clicks
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                }
+                R.id.nav_language -> {
+                    showLanguageDialog()
+                }
+                R.id.nav_feedback -> {
+                    startActivity(Intent(this, FeedbackActivity::class.java))
+                }
+                R.id.nav_about -> {
+                    Toast.makeText(this, "About BoviScan v1.0", Toast.LENGTH_SHORT).show()
+                }
+            }
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true
         }
 
         // Floating Action Button
         val fabHelp: FloatingActionButton = findViewById(R.id.fabHelp)
         fabHelp.setOnClickListener {
-            Toast.makeText(this, getString(R.string.help), Toast.LENGTH_SHORT).show()
+            drawerLayout.openDrawer(GravityCompat.START)
         }
 
         // Card: Scan
@@ -39,27 +65,6 @@ class DashboardActivity : BaseActivity() {
         // Card: History
         findViewById<MaterialCardView>(R.id.cardViewHistory).setOnClickListener {
             startActivity(Intent(this, HistoryActivity::class.java))
-        }
-    }
-
-    // Inflate menu
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.dashboard_menu, menu)
-        return true
-    }
-
-    // Handle menu clicks
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_language -> {
-                showLanguageDialog()
-                true
-            }
-            R.id.action_settings -> {
-                showSettingsPopup()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -85,37 +90,5 @@ class DashboardActivity : BaseActivity() {
         }
 
         builder.show()
-    }
-
-    // Settings popup
-    private fun showSettingsPopup() {
-        val toolbar: MaterialToolbar = findViewById(R.id.topAppBar)
-
-        val popup = PopupMenu(this, toolbar)
-        popup.menuInflater.inflate(R.menu.settings_menu, popup.menu)
-
-        popup.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-
-                R.id.settings_option1 -> {
-                    Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
-                    true
-                }
-
-                R.id.settings_option2 -> {
-                    Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
-                    true
-                }
-
-                R.id.settings_option3 -> {
-                    startActivity(Intent(this, FeedbackActivity::class.java))
-                    true
-                }
-
-                else -> false
-            }
-        }
-
-        popup.show()
     }
 }

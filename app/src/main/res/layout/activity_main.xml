@@ -13,7 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:backgroundTint="#1E88E5"
         android:elevation="4dp"
-        android:title="Breed Identification"
+        android:title="@string/breed_identification"
         android:titleTextColor="@android:color/white"
         app:navigationIcon="@drawable/ic_menu"
         app:titleCentered="true" />
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="45dp"
-                android:text="🐄 BoviScan"
+                android:text="@string/app_name"
                 android:textSize="26sp"
                 android:textColor="#1E88E5"
                 android:textStyle="bold"
@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AI-Powered Breed Identification"
+                android:text="@string/tagline"
                 android:textColor="#757575"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp"
@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="No Image Selected"
+                        android:text="@string/no_image"
                         android:textColor="#9E9E9E"
                         android:textSize="16sp" />
 
@@ -121,7 +121,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Camera"
+                            android:text="@string/camera"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
                             android:layout_marginTop="4dp"
@@ -158,7 +158,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Gallery"
+                            android:text="@string/gallery"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
                             android:layout_marginTop="4dp"
@@ -174,7 +174,7 @@
                 android:id="@+id/btnPredict"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Predict Breed"
+                android:text="@string/predict_breed"
                 android:textSize="16sp"
                 android:textColor="@android:color/white"
                 android:backgroundTint="#1E88E5"
@@ -185,7 +185,7 @@
                 android:id="@+id/btnKnowMore"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Know More About This Breed"
+                android:text="@string/know_more"
                 android:textColor="@android:color/white"
                 android:backgroundTint="#43A047"
                 app:cornerRadius="16dp"
@@ -220,7 +220,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Prediction Result"
+                        android:text="@string/prediction_result"
                         android:textColor="#E0E0E0"
                         android:textSize="13sp"
                         android:layout_marginBottom="8dp" />

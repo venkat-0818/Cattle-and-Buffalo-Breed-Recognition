@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.BreedClassifier" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-
-        <item name="colorPrimary">#6750A4</item>
-        <item name="colorPrimaryVariant">#3700B3</item>
+    <style name="Theme.BreedClassifier" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary Brand Color -->
+        <item name="colorPrimary">#1E88E5</item>
         <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#D1E4FF</item>
+        <item name="colorOnPrimaryContainer">#001D36</item>
 
-        <item name="colorSecondary">#03DAC5</item>
-        <item name="colorOnSecondary">#000000</item>
+        <!-- Secondary Brand Color -->
+        <item name="colorSecondary">#43A047</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#C8E6C9</item>
+        <item name="colorOnSecondaryContainer">#002108</item>
 
+        <!-- Surface Colors -->
+        <item name="android:windowBackground">#F9FAFB</item>
+        <item name="android:statusBarColor">#1E88E5</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.Material3.Corner.Medium" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
 </resources>
+
