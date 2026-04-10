@@ -17,6 +17,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
 import java.nio.ByteBuffer
@@ -38,7 +40,12 @@ class MainActivity : BaseActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var resultCard: MaterialCardView
     private lateinit var btnKnowMore: MaterialButton
+    private lateinit var btnSave: MaterialButton
     private var lastPredictedBreed: String = ""
+    private var lastConfidence: Int = 0
+
+    private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     // Camera launcher
     private val cameraLauncher = registerForActivityResult(
@@ -94,6 +101,7 @@ class MainActivity : BaseActivity() {
         progressBar  = findViewById(R.id.progressBar)
         resultCard   = findViewById(R.id.resultCard)
         btnKnowMore  = findViewById(R.id.btnKnowMore)
+        btnSave      = findViewById(R.id.btnSave)
 
         btnKnowMore.setOnClickListener {
             if (lastPredictedBreed.isNotEmpty()) {
@@ -103,6 +111,10 @@ class MainActivity : BaseActivity() {
             } else {
                 Toast.makeText(this, "Predict a breed first", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        btnSave.setOnClickListener {
+            savePredictionToFirestore()
         }
 
         // Load TFLite model and labels
@@ -145,7 +157,7 @@ class MainActivity : BaseActivity() {
             Thread {
                 val (breed, confidence) = predictImage(bitmap)
                 
-                // CRITICAL FIX: Save to HistoryManager
+                // Save to local HistoryManager
                 HistoryManager.add(breed, confidence, bitmap)
 
                 runOnUiThread {
@@ -154,9 +166,40 @@ class MainActivity : BaseActivity() {
                     tvBreedName.text  = breed.replaceFirstChar { it.uppercase() }
                     tvConfidence.text = "Confidence: $confidence%"
                     lastPredictedBreed = breed
+                    lastConfidence = confidence
+                    btnSave.isEnabled = true
                 }
             }.start()
         }
+    }
+
+    private fun savePredictionToFirestore() {
+        val user = auth.currentUser
+        if (user == null) {
+            Toast.makeText(this, "Please login to save", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (lastPredictedBreed.isEmpty()) return
+
+        btnSave.isEnabled = false
+        val prediction = hashMapOf(
+            "userId" to user.uid,
+            "email" to user.email,
+            "breed" to lastPredictedBreed,
+            "confidence" to lastConfidence,
+            "timestamp" to System.currentTimeMillis()
+        )
+
+        db.collection("saved_predictions")
+            .add(prediction)
+            .addOnSuccessListener {
+                Toast.makeText(this, getString(R.string.prediction_saved), Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                btnSave.isEnabled = true
+                Toast.makeText(this, getString(R.string.failed_to_save) + ": ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun loadModelFile(filename: String): MappedByteBuffer {

@@ -63,6 +63,7 @@
 
     <!-- Info Section -->
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/infoCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
@@ -140,18 +141,38 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Logout Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogout"
-        style="@style/Widget.Material3.Button.TonalButton"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_margin="24dp"
-        android:text="Logout"
-        android:textColor="#D32F2F"
-        app:cornerRadius="12dp"
-        app:icon="@android:drawable/ic_lock_power_off"
-        app:iconTint="#D32F2F"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Delete Account Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDeleteAccount"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/delete_account"
+            android:textColor="#D32F2F"
+            app:cornerRadius="12dp"
+            app:icon="@android:drawable/ic_menu_delete"
+            app:iconTint="#D32F2F" />
+
+        <!-- Logout Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/logout"
+            android:textColor="#757575"
+            app:cornerRadius="12dp"
+            app:icon="@android:drawable/ic_lock_power_off"
+            app:iconTint="#757575" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

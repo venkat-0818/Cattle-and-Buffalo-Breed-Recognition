@@ -7,6 +7,7 @@
     <string name="password">Password</string>
     <string name="select_language">Select Language</string>
     <string name="logout">Logout</string>
+    <string name="delete_account">Delete Account</string>
 
     <string name="tagline">AI-powered cattle breed detection</string>
     <string name="scan_breed">Scan Breed</string>
@@ -18,10 +19,13 @@
     <string name="about">About</string>
     <string name="language">Language</string>
     <string name="feedback">Feedback</string>
+    <string name="saved">Saved</string>
 
     <string name="login_title">🐄 Breed Classifier</string>
     <string name="login_subtitle">Login to continue</string>
     <string name="no_account">Don\'t have an account? Register</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="app_logo">App Logo</string>
 
     <string name="register_title">🐄 Create Account</string>
     <string name="register_subtitle">Register to get started</string>
@@ -35,4 +39,16 @@
     <string name="predict_breed">Predict Breed</string>
     <string name="know_more">Know More About This Breed</string>
     <string name="prediction_result">Prediction Result</string>
+    <string name="send">Send</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_email_to_reset">Enter your email to reset password</string>
+    <string name="password_reset_sent">Password reset link sent to your email</string>
+    <string name="please_enter_email">Please enter your email</string>
+    <string name="save_prediction">Save Prediction</string>
+    <string name="prediction_saved">Prediction saved successfully</string>
+    <string name="failed_to_save">Failed to save prediction</string>
+    <string name="no_saved_predictions">No saved predictions yet</string>
+    <string name="delete_account_confirm">Are you sure you want to delete your account? This action cannot be undone.</string>
+    <string name="account_deleted">Account deleted successfully</string>
+    <string name="failed_delete_account">Failed to delete account</string>
 </resources>

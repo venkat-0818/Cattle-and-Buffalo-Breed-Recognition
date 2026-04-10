@@ -11,6 +11,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class DashboardActivity : BaseActivity() {
 
@@ -36,6 +37,9 @@ class DashboardActivity : BaseActivity() {
             when (menuItem.itemId) {
                 R.id.nav_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                }
+                R.id.nav_saved -> {
+                    startActivity(Intent(this, SavedActivity::class.java))
                 }
                 R.id.nav_language -> {
                     showLanguageDialog()

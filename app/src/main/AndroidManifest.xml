@@ -20,6 +20,7 @@
             android:exported="true" />
         <activity android:name=".FeedbackActivity" />
         <activity android:name=".HistoryActivity" />
+        <activity android:name=".SavedActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".ProfileActivity" />

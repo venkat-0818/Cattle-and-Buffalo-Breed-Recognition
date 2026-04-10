@@ -31,6 +31,7 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="60dp"
                 android:src="@drawable/boviscan_logo"
+                android:contentDescription="@string/app_logo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -113,12 +114,24 @@
                             android:inputType="textPassword" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <!-- Forgot Password Link -->
+                    <TextView
+                        android:id="@+id/forgotPasswordBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/forgot_password"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
                     <!-- Login Button -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/loginBtn"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="24dp"
                         android:text="@string/login"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -132,7 +145,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="24dp"
                         android:text="@string/no_account"
-                        android:textColor="@color/design_default_color_primary"
+                        android:textColor="?attr/colorPrimary"
                         android:textStyle="bold" />
 
                 </LinearLayout>
