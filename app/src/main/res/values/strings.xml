@@ -51,4 +51,18 @@
     <string name="delete_account_confirm">Are you sure you want to delete your account? This action cannot be undone.</string>
     <string name="account_deleted">Account deleted successfully</string>
     <string name="failed_delete_account">Failed to delete account</string>
+
+    <string name="feedback_title">We value your feedback!</string>
+    <string name="feedback_subtitle">How was your experience with BoviScan? Your feedback helps us improve.</string>
+    <string name="tap_to_rate">Tap to Rate</string>
+    <string name="feedback_hint">Tell us more (Optional)</string>
+    <string name="submit_feedback">Submit Feedback</string>
+    <string name="feedback_submitted">Feedback Submitted. Thank you!</string>
+    <string name="error_saving_feedback">Error saving feedback</string>
+    <string name="please_rate">Please provide a rating</string>
+    <string name="rating_poor">Poor</string>
+    <string name="rating_fair">Fair</string>
+    <string name="rating_good">Good</string>
+    <string name="rating_very_good">Very Good</string>
+    <string name="rating_excellent">Excellent!</string>
 </resources>

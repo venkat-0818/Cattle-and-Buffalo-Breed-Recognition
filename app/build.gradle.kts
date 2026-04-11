@@ -2,11 +2,12 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
     namespace = "com.breeddetect.ai"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.breeddetect.ai"
@@ -33,10 +34,6 @@ android {
 
     buildFeatures {
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
     }
 
     aaptOptions {
@@ -84,6 +81,9 @@ dependencies {
 
     // Constraint Layout
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
     testImplementation("junit:junit:4.13.2")
 }

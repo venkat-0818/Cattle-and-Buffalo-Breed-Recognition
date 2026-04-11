@@ -48,7 +48,7 @@ class DashboardActivity : BaseActivity() {
                     startActivity(Intent(this, FeedbackActivity::class.java))
                 }
                 R.id.nav_about -> {
-                    Toast.makeText(this, "About BoviScan v1.0", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, AboutActivity::class.java))
                 }
             }
             drawerLayout.closeDrawer(GravityCompat.START)
